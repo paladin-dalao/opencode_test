@@ -7,20 +7,31 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
       contents: read
-      pull-requests: read
-      issues: read
+      pull-requests: write
+      issues: write
+
     steps:
-      - uses: actions/checkout@v6
-      - uses: anomalyco/opencode/github@latest
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run OpenCode Review
+        uses: anomalyco/opencode/github@latest
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         with:
           model: alibaba-cn/deepseek-r1
           prompt: |
-            Review this pull request:
-            - Check for code quality issues
-            - Look for potential bugs
-            - Suggest improvements
+            Review this pull request and provide actionable feedback.
+
+            Focus on:
+            - Code quality and readability
+            - Potential bugs or edge cases
+            - Security issues
+            - Performance problems
+            - Suggestions for improvement
