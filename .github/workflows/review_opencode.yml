@@ -26,7 +26,6 @@ jobs:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         with:
           model: alibaba-cn/deepseek-r1
-          use_github_token: true
           prompt: |
             Review this pull request and provide actionable feedback.
 
