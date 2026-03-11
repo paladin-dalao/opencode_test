@@ -1,0 +1,50 @@
+name: Issue Auto Fix
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run OpenCode
+        uses: anomalyco/opencode/github@latest
+        env:
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        with:
+          model: alibaba-cn/deepseek-r1
+          prompt: |
+            A new GitHub issue was opened.
+
+            Your tasks:
+
+            1. Read and summarize the issue.
+            2. Search the repository for related code.
+            3. If the issue describes a bug or improvement:
+               - Implement a fix.
+               - Update or add tests if needed.
+               - Commit the changes.
+               - Create a Pull Request.
+
+            PR requirements:
+            - Title: "Fix: <short issue summary>"
+            - Body should include:
+              - Problem description
+              - Explanation of the fix
+              - Reference the issue using "Fixes #<issue_number>"
+
+            If the issue cannot be fixed automatically:
+            - Comment on the issue with suggestions or questions.
