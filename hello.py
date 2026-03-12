@@ -1,7 +1,7 @@
-# 定义一个变量存储要输出的内容
+# Define a variable to store the content to be printed
 message = "Hello World! 👋"
-# 打印变量中的内容
-    print(message)
+# Print the content of the variable
+print(message)
 
-# 也可以打印多个内容，用逗号分隔，会自动用空格隔开
+# You can also print multiple items, separated by commas, and they will be automatically spaced
 print("Hello", "Python!")
